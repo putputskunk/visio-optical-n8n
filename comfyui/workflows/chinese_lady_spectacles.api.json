@@ -1,0 +1,59 @@
+{
+  "4": {
+    "class_type": "CheckpointLoaderSimple",
+    "inputs": {
+      "ckpt_name": "sd_xl_base_1.0.safetensors"
+    }
+  },
+  "6": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": ["4", 1],
+      "text": "professional fashion editorial portrait photograph of a beautiful elegant Chinese woman, refined facial features, wearing designer optical spectacles (eyeglasses) with stylish acetate frames, elegant evening dress, soft studio lighting, shallow depth of field, sharp focus on the eyes and glasses, luxury eyewear advertising, high-end commercial photography, 85mm lens, ultra detailed, photorealistic, 8k"
+    }
+  },
+  "7": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": ["4", 1],
+      "text": "sunglasses, tinted lenses, deformed eyes, asymmetric glasses, crooked frames, extra fingers, distorted hands, blurry, lowres, low quality, jpeg artifacts, watermark, text, logo, cartoon, 3d render, plastic skin, oversaturated"
+    }
+  },
+  "5": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "width": 832,
+      "height": 1216,
+      "batch_size": 1
+    }
+  },
+  "3": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": ["4", 0],
+      "positive": ["6", 0],
+      "negative": ["7", 0],
+      "latent_image": ["5", 0],
+      "seed": 42,
+      "steps": 30,
+      "cfg": 6.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "8": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": ["3", 0],
+      "vae": ["4", 2]
+    }
+  },
+  "9": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": ["8", 0],
+      "filename_prefix": "visio_optical_lady"
+    }
+  }
+}
